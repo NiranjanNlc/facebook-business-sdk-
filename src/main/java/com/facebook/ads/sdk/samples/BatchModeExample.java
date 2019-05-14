@@ -1,25 +1,4 @@
-package com.facebook.ads.sdk.samples; /**
- * Copyright (c) 2015-present, Facebook, Inc. All rights reserved.
- *
- * You are hereby granted a non-exclusive, worldwide, royalty-free license to
- * use, copy, modify, and distribute this software in source code or binary
- * form for use in connection with the web services and APIs provided by
- * Facebook.
- *
- * As with any software that integrates with the Facebook platform, your use
- * of this software is subject to the Facebook Developer Principles and
- * Policies [http://developers.facebook.com/policy/]. This copyright notice
- * shall be included in all copies or substantial portions of the software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- *
- */
+package com.facebook.ads.sdk.samples;
 
 import java.io.File;
 import java.util.Arrays;
@@ -41,7 +20,7 @@ public class BatchModeExample {
   public static final String ACCESS_TOKEN = ExampleConfig.ACCESS_TOKEN;
   public static final String ACCOUNT_ID = ExampleConfig.ACCOUNT_ID;
   public static final String APP_SECRET = ExampleConfig.APP_SECRET;
-  public static final File imageFile = new File(ExampleConfig.IMAGE_FILE);
+  public static final File imageFile = new File("/home/ernlc/Documents/peecho.jpg");
 
   public static final APIContext context = new APIContext(ACCESS_TOKEN, APP_SECRET).enableDebug(true);
   public static void main(String[] args) {
@@ -49,16 +28,18 @@ public class BatchModeExample {
       Targeting targeting = new Targeting().setFieldGeoLocations(new TargetingGeoLocation().setFieldCountries(Arrays.asList("US")));
       AdAccount account = new AdAccount(ACCOUNT_ID, context);
 
+      System.out.println(imageFile.toString());
+
       // Creation of Ad
       BatchRequest batch = new BatchRequest(context);
       account.createCampaign()
-        .setName("Java SDK Batch Test Campaign")
+        .setName("Nepal")
         .setObjective(Campaign.EnumObjective.VALUE_LINK_CLICKS)
         .setSpendCap(10000L)
         .setStatus(Campaign.EnumStatus.VALUE_PAUSED)
         .addToBatch(batch, "campaignRequest");
       account.createAdSet()
-        .setName("Java SDK Batch Test AdSet")
+        .setName("nepal")
         .setCampaignId("{result=campaignRequest:$.id}")
         .setStatus(AdSet.EnumStatus.VALUE_PAUSED)
         .setBillingEvent(AdSet.EnumBillingEvent.VALUE_IMPRESSIONS)
@@ -71,14 +52,14 @@ public class BatchModeExample {
         .addUploadFile("file", imageFile)
         .addToBatch(batch, "imageRequest");
       account.createAdCreative()
-        .setTitle("Java SDK Batch Test Creative")
-        .setBody("Java SDK Batch Test Creative")
+        .setTitle("NEPAL ")
+        .setBody("NEPAL ")
         .setImageHash("{result=imageRequest:$.images.*.hash}")
         .setLinkUrl("www.facebook.com")
         .setObjectUrl("www.facebook.com")
         .addToBatch(batch, "creativeRequest");
       account.createAd()
-        .setName("Java SDK Batch Test ad")
+        .setName("nEPALI AD ")
         .setAdsetId("{result=adsetRequest:$.id}")
         .setCreative("{creative_id:{result=creativeRequest:$.id}}")
         .setStatus("PAUSED")
@@ -87,7 +68,7 @@ public class BatchModeExample {
       List<APIResponse> responses = batch.execute();
 
       // Obtain the IDs of the newly created objects
-      Ad ad = ((Ad)responses.get(4)).fetch();
+      Ad ad = ((Ad)responses.get(1)).fetch();
       AdSet adSet = new AdSet(ad.getFieldAdsetId(), context).fetch();
       Campaign campaign = new Campaign(adSet.getFieldCampaignId(), context);
 
