@@ -89,7 +89,7 @@ public  void batchRequest(AdAccount account)
 {
     BatchRequest batch = new BatchRequest(context);
     account.createCampaign()
-            .setName(" Niranjan  Campaign")
+            .setName(" Niranjan NLC Campaign")
             .setObjective(Campaign.EnumObjective.VALUE_LINK_CLICKS)
             .setSpendCap(10000L)
             .setStatus(Campaign.EnumStatus.VALUE_PAUSED)
@@ -112,7 +112,7 @@ public  void batchRequest(AdAccount account)
             .setBody("Niranjan Test Creative")
             .setImageHash("{result=imageRequest:$.images.*.hash}")
             .setLinkUrl("www.facebook.com")
-            .setObjectUrl("www.facebook.com")
+            .setObjectUrl("www.fb.com")
             .addToBatch(batch, "creativeRequest");
     account.createAd()
             .setName("Niranjan lamichhane ad ")
